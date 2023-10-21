@@ -2,6 +2,7 @@ package router
 
 import (
 	"github.com/RenanAlmeida225/go-system-auth/handler"
+	"github.com/RenanAlmeida225/go-system-auth/middleware"
 	"github.com/gin-gonic/gin"
 )
 
@@ -11,6 +12,11 @@ func InitializeRoutes(r *gin.Engine) {
 	auth := v1.Group("auth")
 	{
 		auth.POST("/signUp", handler.SignUp)
-		auth.POST("/signIn")
+		auth.GET("/enable/:token", handler.EnableUser)
+		auth.POST("/signIn", handler.SignIn)
+	}
+	products := v1.Group("products", middleware.VerifyAuth)
+	{
+		products.GET("/save")
 	}
 }
