@@ -25,5 +25,8 @@ func InitializePostgres() (*gorm.DB, error) {
 	if err = db.AutoMigrate(&schema.User{}); err != nil {
 		return nil, err
 	}
+	if err = db.AutoMigrate(&schema.Confirmation{}); err != nil {
+		return nil, err
+	}
 	return db, nil
 }
