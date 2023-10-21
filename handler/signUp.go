@@ -32,16 +32,16 @@ func SignUp(ctx *gin.Context) {
 	}
 
 	token := uuid.New().String()
-
 	user.Username = request.Username
 	user.Email = request.Email
 	user.Password = string(passwordHash)
-	user.Confirmation = schema.Confirmation{
-		Token: token,
-		Email: user.Email,
+	confirmation := schema.Confirmation{
+		Token:  token,
+		UserID: user.ID,
+		User:   user,
 	}
 
-	if err = db.Create(&user).Error; err != nil {
+	if err = db.Create(&confirmation).Error; err != nil {
 		fmt.Println(err)
 		sendError(ctx, http.StatusBadRequest, "fail on register user")
 		return
